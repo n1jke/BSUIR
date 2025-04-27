@@ -16,7 +16,7 @@ This repository serves as a structured index for my programming laboratory works
 | Fundamentals of Programming I              | C++      | 1st      | [C++ 1st Semester](https://github.com/your_username/cpp-first-semester) |
 | Fundamentals of Programming II             | C++      | 2nd      | [C++ 2nd Semester](https://github.com/n1jke/BSUIR/tree/main/Fundamentals-of-algorithmization-and-programming_2nd_semester) |
 | Basics of Application Programming          | C#       | 2nd      | [C# 2nd Semester](https://github.com/your_username/csharp-second-semester) |
-| Algorithms and Data Structures (T-Bank)    | C++/Go   | 2nd      | [T-Bank Algorithms](https://github.com/your_username/tbank-algorithms) |
+| Algorithms and Data Structures (T-Bank)    | C++/Go   | 2nd      | [T-Bank Algorithms](https://github.com/n1jke/BSUIR/tree/main/Algorithms_and_Data_Structures_T-Bank/tbank) |
 
 ---
 
