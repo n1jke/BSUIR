@@ -1,0 +1,9 @@
+# Игнорируем артефакты сборки
+build/
+*.o
+*.pro.user
+*.user
+*.exe
+*.out
+*.tmp
+*.log

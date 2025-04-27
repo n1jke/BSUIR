@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>600</width>
+    <height>450</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>String Library Demo</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="tabMemory">
+       <attribute name="title">
+        <string>Memory</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayoutMem">
+        <!-- Memcpy -->
+        <item row="0" column="0"><widget class="QLabel" name="labelMemcpy"><property name="text"><string>&lt;b&gt;memcpy_sml&lt;/b&gt;</string></property></widget></item>
+        <item row="1" column="0"><widget class="QLabel" name="labelMemcpySrc"><property name="text"><string>Source:</string></property></widget></item>
+        <item row="1" column="1"><widget class="QLineEdit" name="lineEditMemcpySrc"/></item>
+        <item row="1" column="2"><widget class="QLabel" name="labelMemcpyN"><property name="text"><string>Count (n):</string></property></widget></item>
+        <item row="1" column="3"><widget class="QSpinBox" name="spinBoxMemcpyN"/></item>
+        <item row="2" column="0"><widget class="QLabel" name="labelMemcpyDest"><property name="text"><string>Dest (Result):</string></property></widget></item>
+        <item row="2" column="1" colspan="3"><widget class="QLineEdit" name="lineEditMemcpyDest"><property name="readOnly"><bool>true</bool></property></widget></item>
+        <item row="3" column="1"><widget class="QPushButton" name="btnMemcpy"><property name="text"><string>Run memcpy</string></property></widget></item>
+        <!-- Separator -->
+        <item row="4" column="0" colspan="4"><widget class="Line" name="lineMem1"><property name="orientation"><enum>Qt::Horizontal</enum></property></widget></item>
+        <!-- Memmove -->
+        <item row="5" column="0"><widget class="QLabel" name="labelMemmove"><property name="text"><string>&lt;b&gt;memmove_sml&lt;/b&gt;</string></property></widget></item>
+        <item row="6" column="0"><widget class="QLabel" name="labelMemmoveSrc"><property name="text"><string>Source:</string></property></widget></item>
+        <item row="6" column="1"><widget class="QLineEdit" name="lineEditMemmoveSrc"/></item>
+        <item row="6" column="2"><widget class="QLabel" name="labelMemmoveN"><property name="text"><string>Count (n):</string></property></widget></item>
+        <item row="6" column="3"><widget class="QSpinBox" name="spinBoxMemmoveN"/></item>
+        <item row="7" column="0"><widget class="QLabel" name="labelMemmoveDest"><property name="text"><string>Dest (Result):</string></property></widget></item>
+        <item row="7" column="1" colspan="3"><widget class="QLineEdit" name="lineEditMemmoveDest"><property name="readOnly"><bool>true</bool></property></widget></item>
+        <item row="8" column="1"><widget class="QPushButton" name="btnMemmove"><property name="text"><string>Run memmove</string></property></widget></item>
+        <!-- Separator -->
+        <item row="9" column="0" colspan="4"><widget class="Line" name="lineMem2"><property name="orientation"><enum>Qt::Horizontal</enum></property></widget></item>
+        <!-- Memset -->
+        <item row="10" column="0"><widget class="QLabel" name="labelMemset"><property name="text"><string>&lt;b&gt;memset_sml&lt;/b&gt;</string></property></widget></item>
+        <item row="11" column="0"><widget class="QLabel" name="labelMemsetChar"><property name="text"><string>Char (int):</string></property></widget></item>
+        <item row="11" column="1"><widget class="QSpinBox" name="spinBoxMemsetChar"/></item>
+        <item row="11" column="2"><widget class="QLabel" name="labelMemsetN"><property name="text"><string>Count (n):</string></property></widget></item>
+        <item row="11" column="3"><widget class="QSpinBox" name="spinBoxMemsetN"/></item>
+        <item row="12" column="0"><widget class="QLabel" name="labelMemsetDest"><property name="text"><string>Dest (Result):</string></property></widget></item>
+        <item row="12" column="1" colspan="3"><widget class="QLineEdit" name="lineEditMemsetDest"><property name="readOnly"><bool>true</bool></property></widget></item>
+        <item row="13" column="1"><widget class="QPushButton" name="btnMemset"><property name="text"><string>Run memset</string></property></widget></item>
+        <item row="14" column="0" colspan="4"><spacer name="verticalSpacerMem"><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeHint" stdset="0"><size><width>20</width><height>40</height></size></property></spacer></item>
+       </layout>
+      </widget>
+
+      <widget class="QWidget" name="tabCopy">
+       <attribute name="title">
+        <string>Copy</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayoutCopy">
+        <!-- strcpy -->
+        <item row="0" column="0"><widget class="QLabel" name="labelStrcpy"><property name="text"><string>&lt;b&gt;strcpy_sml&lt;/b&gt;</string></property></widget></item>
+        <item row="1" column="0"><widget class="QLabel" name="labelStrcpySrc"><property name="text"><string>Source:</string></property></widget></item>
+        <item row="1" column="1" colspan="2"><widget class="QLineEdit" name="lineEditStrcpySrc"/></item>
+        <item row="2" column="0"><widget class="QLabel" name="labelStrcpyDest"><property name="text"><string>Dest (Result):</string></property></widget></item>
+        <item row="2" column="1" colspan="2"><widget class="QLineEdit" name="lineEditStrcpyDest"><property name="readOnly"><bool>true</bool></property></widget></item>
+        <item row="3" column="1"><widget class="QPushButton" name="btnStrcpy"><property name="text"><string>Run strcpy</string></property></widget></item>
+        <!-- Separator -->
+        <item row="4" column="0" colspan="3"><widget class="Line" name="lineCopy1"><property name="orientation"><enum>Qt::Horizontal</enum></property></widget></item>
+        <!-- strncpy -->
+        <item row="5" column="0"><widget class="QLabel" name="labelStrncpy"><property name="text"><string>&lt;b&gt;strncpy_sml&lt;/b&gt;</string></property></widget></item>
+        <item row="6" column="0"><widget class="QLabel" name="labelStrncpySrc"><property name="text"><string>Source:</string></property></widget></item>
+        <item row="6" column="1"><widget class="QLineEdit" name="lineEditStrncpySrc"/></item>
+        <item row="6" column="2"><widget class="QSpinBox" name="spinBoxStrncpyN"/></item>
+        <item row="7" column="0"><widget class="QLabel" name="labelStrncpyDest"><property name="text"><string>Dest (Result):</string></property></widget></item>
+        <item row="7" column="1" colspan="2"><widget class="QLineEdit" name="lineEditStrncpyDest"><property name="readOnly"><bool>true</bool></property></widget></item>
+        <item row="8" column="1"><widget class="QPushButton" name="btnStrncpy"><property name="text"><string>Run strncpy</string></property></widget></item>
+        <item row="9" column="0" colspan="3"><spacer name="verticalSpacerCopy"><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeHint" stdset="0"><size><width>20</width><height>40</height></size></property></spacer></item>
+       </layout>
+      </widget>
+
+      <widget class="QWidget" name="tabConcat">
+        <attribute name="title">
+         <string>Concatenate</string>
+        </attribute>
+       <layout class="QGridLayout" name="gridLayoutConcat">
+        <!-- strcat -->
+        <item row="0" column="0"><widget class="QLabel" name="labelStrcat"><property name="text"><string>&lt;b&gt;strcat_sml&lt;/b&gt;</string></property></widget></item>
+        <item row="1" column="0"><widget class="QLabel" name="labelStrcatDest"><property name="text"><string>Destination:</string></property></widget></item>
+        <item row="1" column="1" colspan="2"><widget class="QLineEdit" name="lineEditStrcatDest"/></item>
+        <item row="2" column="0"><widget class="QLabel" name="labelStrcatSrc"><property name="text"><string>Source (Append):</string></property></widget></item>
+        <item row="2" column="1" colspan="2"><widget class="QLineEdit" name="lineEditStrcatSrc"/></item>
+        <item row="3" column="0"><widget class="QLabel" name="labelStrcatResult"><property name="text"><string>Result:</string></property></widget></item>
+        <item row="3" column="1" colspan="2"><widget class="QLineEdit" name="lineEditStrcatResult"><property name="readOnly"><bool>true</bool></property></widget></item>
+        <item row="4" column="1"><widget class="QPushButton" name="btnStrcat"><property name="text"><string>Run strcat</string></property></widget></item>
+        <!-- Separator -->
+        <item row="5" column="0" colspan="3"><widget class="Line" name="lineConcat1"><property name="orientation"><enum>Qt::Horizontal</enum></property></widget></item>
+        <!-- strncat -->
+        <item row="6" column="0"><widget class="QLabel" name="labelStrncat"><property name="text"><string>&lt;b&gt;strncat_sml&lt;/b&gt;</string></property></widget></item>
+        <item row="7" column="0"><widget class="QLabel" name="labelStrncatDest"><property name="text"><string>Destination:</string></property></widget></item>
+        <item row="7" column="1"><widget class="QLineEdit" name="lineEditStrncatDest"/></item>
+        <item row="8" column="0"><widget class="QLabel" name="labelStrncatSrc"><property name="text"><string>Source (Append):</string></property></widget></item>
+        <item row="8" column="1"><widget class="QLineEdit" name="lineEditStrncatSrc"/></item>
+        <item row="8" column="2"><widget class="QSpinBox" name="spinBoxStrncatN"/></item>
+        <item row="9" column="0"><widget class="QLabel" name="labelStrncatResult"><property name="text"><string>Result:</string></property></widget></item>
+        <item row="9" column="1" colspan="2"><widget class="QLineEdit" name="lineEditStrncatResult"><property name="readOnly"><bool>true</bool></property></widget></item>
+        <item row="10" column="1"><widget class="QPushButton" name="btnStrncat"><property name="text"><string>Run strncat</string></property></widget></item>
+        <item row="11" column="0" colspan="3"><spacer name="verticalSpacerConcat"><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeHint" stdset="0"><size><width>20</width><height>40</height></size></property></spacer></item>
+       </layout>
+      </widget>
+
+      <widget class="QWidget" name="tabCompare">
+       <attribute name="title">
+        <string>Compare</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayoutCompare">
+        <!-- memcmp -->
+        <item row="0" column="0"><widget class="QLabel" name="labelMemcmp"><property name="text"><string>&lt;b&gt;memcmp_sml&lt;/b&gt;</string></property></widget></item>
+        <item row="1" column="0"><widget class="QLabel" name="labelMemcmpS1"><property name="text"><string>String 1:</string></property></widget></item>
+        <item row="1" column="1"><widget class="QLineEdit" name="lineEditMemcmpS1"/></item>
+        <item row="2" column="0"><widget class="QLabel" name="labelMemcmpS2"><property name="text"><string>String 2:</string></property></widget></item>
+        <item row="2" column="1"><widget class="QLineEdit" name="lineEditMemcmpS2"/></item>
+        <item row="1" column="2"><widget class="QLabel" name="labelMemcmpN"><property name="text"><string>Count (n):</string></property></widget></item>
+        <item row="1" column="3"><widget class="QSpinBox" name="spinBoxMemcmpN"/></item>
+        <item row="3" column="0"><widget class="QLabel" name="labelMemcmpResult"><property name="text"><string>Result:</string></property></widget></item>
+        <item row="3" column="1"><widget class="QLineEdit" name="lineEditMemcmpResult"><property name="readOnly"><bool>true</bool></property></widget></item>
+        <item row="4" column="1"><widget class="QPushButton" name="btnMemcmp"><property name="text"><string>Run memcmp</string></property></widget></item>
+        <!-- Separator -->
+        <item row="5" column="0" colspan="4"><widget class="Line" name="lineCmp1"><property name="orientation"><enum>Qt::Horizontal</enum></property></widget></item>
+        <!-- strcmp -->
+        <item row="6" column="0"><widget class="QLabel" name="labelStrcmp"><property name="text"><string>&lt;b&gt;strcmp_sml&lt;/b&gt;</string></property></widget></item>
+        <item row="7" column="0"><widget class="QLabel" name="labelStrcmpS1"><property name="text"><string>String 1:</string></property></widget></item>
+        <item row="7" column="1" colspan="3"><widget class="QLineEdit" name="lineEditStrcmpS1"/></item>
+        <item row="8" column="0"><widget class="QLabel" name="labelStrcmpS2"><property name="text"><string>String 2:</string></property></widget></item>
+        <item row="8" column="1" colspan="3"><widget class="QLineEdit" name="lineEditStrcmpS2"/></item>
+        <item row="9" column="0"><widget class="QLabel" name="labelStrcmpResult"><property name="text"><string>Result:</string></property></widget></item>
+        <item row="9" column="1"><widget class="QLineEdit" name="lineEditStrcmpResult"><property name="readOnly"><bool>true</bool></property></widget></item>
+        <item row="10" column="1"><widget class="QPushButton" name="btnStrcmp"><property name="text"><string>Run strcmp</string></property></widget></item>
+        <!-- Separator -->
+        <item row="11" column="0" colspan="4"><widget class="Line" name="lineCmp2"><property name="orientation"><enum>Qt::Horizontal</enum></property></widget></item>
+        <!-- strcoll -->
+        <item row="12" column="0"><widget class="QLabel" name="labelStrcoll"><property name="text"><string>&lt;b&gt;strcoll_sml&lt;/b&gt;</string></property></widget></item>
+        <item row="13" column="0"><widget class="QLabel" name="labelStrcollS1"><property name="text"><string>String 1:</string></property></widget></item>
+        <item row="13" column="1" colspan="3"><widget class="QLineEdit" name="lineEditStrcollS1"/></item>
+        <item row="14" column="0"><widget class="QLabel" name="labelStrcollS2"><property name="text"><string>String 2:</string></property></widget></item>
+        <item row="14" column="1" colspan="3"><widget class="QLineEdit" name="lineEditStrcollS2"/></item>
+        <item row="15" column="0"><widget class="QLabel" name="labelStrcollResult"><property name="text"><string>Result:</string></property></widget></item>
+        <item row="15" column="1"><widget class="QLineEdit" name="lineEditStrcollResult"><property name="readOnly"><bool>true</bool></property></widget></item>
+        <item row="16" column="1"><widget class="QPushButton" name="btnStrcoll"><property name="text"><string>Run strcoll</string></property></widget></item>
+        <!-- Separator -->
+        <item row="17" column="0" colspan="4"><widget class="Line" name="lineCmp3"><property name="orientation"><enum>Qt::Horizontal</enum></property></widget></item>
+        <!-- strncmp -->
+        <item row="18" column="0"><widget class="QLabel" name="labelStrncmp"><property name="text"><string>&lt;b&gt;strncmp_sml&lt;/b&gt;</string></property></widget></item>
+        <item row="19" column="0"><widget class="QLabel" name="labelStrncmpS1"><property name="text"><string>String 1:</string></property></widget></item>
+        <item row="19" column="1"><widget class="QLineEdit" name="lineEditStrncmpS1"/></item>
+        <item row="20" column="0"><widget class="QLabel" name="labelStrncmpS2"><property name="text"><string>String 2:</string></property></widget></item>
+        <item row="20" column="1"><widget class="QLineEdit" name="lineEditStrncmpS2"/></item>
+        <item row="19" column="2"><widget class="QLabel" name="labelStrncmpN"><property name="text"><string>Count (n):</string></property></widget></item>
+        <item row="19" column="3"><widget class="QSpinBox" name="spinBoxStrncmpN"/></item>
+        <item row="21" column="0"><widget class="QLabel" name="labelStrncmpResult"><property name="text"><string>Result:</string></property></widget></item>
+        <item row="21" column="1"><widget class="QLineEdit" name="lineEditStrncmpResult"><property name="readOnly"><bool>true</bool></property></widget></item>
+        <item row="22" column="1"><widget class="QPushButton" name="btnStrncmp"><property name="text"><string>Run strncmp</string></property></widget></item>
+        <item row="23" column="0" colspan="4"><spacer name="verticalSpacerCompare"><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeHint" stdset="0"><size><width>20</width><height>40</height></size></property></spacer></item>
+       </layout>
+      </widget>
+
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>600</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

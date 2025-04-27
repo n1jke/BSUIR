@@ -1,0 +1,7 @@
+/home/n1jke/453503/ОАиП/Sem2/Laba4/Task-4-5/slice/cmake-build-release/CMakeFiles/slice.dir
+/home/n1jke/453503/ОАиП/Sem2/Laba4/Task-4-5/slice/cmake-build-release/CMakeFiles/edit_cache.dir
+/home/n1jke/453503/ОАиП/Sem2/Laba4/Task-4-5/slice/cmake-build-release/CMakeFiles/rebuild_cache.dir
+/home/n1jke/453503/ОАиП/Sem2/Laba4/Task-4-5/slice/cmake-build-release/CMakeFiles/list_install_components.dir
+/home/n1jke/453503/ОАиП/Sem2/Laba4/Task-4-5/slice/cmake-build-release/CMakeFiles/install.dir
+/home/n1jke/453503/ОАиП/Sem2/Laba4/Task-4-5/slice/cmake-build-release/CMakeFiles/install/local.dir
+/home/n1jke/453503/ОАиП/Sem2/Laba4/Task-4-5/slice/cmake-build-release/CMakeFiles/install/strip.dir

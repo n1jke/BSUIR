@@ -1,0 +1,3 @@
+/home/n1jke/453503/ОАиП/Sem2/Laba5/Task-2/string/cmake-build-debug/CMakeFiles/string.dir
+/home/n1jke/453503/ОАиП/Sem2/Laba5/Task-2/string/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/n1jke/453503/ОАиП/Sem2/Laba5/Task-2/string/cmake-build-debug/CMakeFiles/rebuild_cache.dir
