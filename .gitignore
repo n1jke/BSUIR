@@ -38,7 +38,8 @@ Release/
 
 # Qt Creator / qmake
 *.pro.user
-*.user
+*.user 
+*.pro
 *.qbs.user
 *.moc
 .moc/
