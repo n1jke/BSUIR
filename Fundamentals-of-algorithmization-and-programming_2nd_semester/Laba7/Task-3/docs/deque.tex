@@ -1,0 +1,618 @@
+
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{geometry}
+
+\geometry{a4paper,margin=2.5cm}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=cyan,
+}
+
+\lstset{
+    language=C++,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!50!black},
+    stringstyle=\color{red},
+    showstringspaces=false,
+    breaklines=true,
+    frame=single,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    numbersep=5pt,
+    tabsize=4,
+    captionpos=b
+}
+
+\title{\textbf{Double-Ended Queue (Deque) Implementation\\Documentation}}
+\author{Custom Deque Implementation in C++}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Introduction}
+This document provides comprehensive documentation for a custom Double-Ended Queue (Deque) implementation in C++. The deque data structure supports efficient insertion and deletion of elements at both the beginning and the end of the container. The implementation is contained in the namespace \texttt{sml}.
+
+\section{Implementation Overview}
+The deque is implemented using a bucket-based approach, where elements are stored in fixed-size buckets. This allows for efficient memory management and constant-time complexity for most operations.
+
+\subsection{Key Features}
+\begin{itemize}
+    \item Efficient O(1) insertion and deletion at both ends
+    \item Memory efficient with bucket-based storage
+    \item Support for standard container operations
+    \item Custom iterator implementation
+    \item Memory-aligned element storage
+\end{itemize}
+
+\section{Class Structure}
+The deque is implemented as a template class to support any data type.
+
+\subsection{Deque Class Declaration}
+\begin{lstlisting}
+namespace sml {
+template <typename T>
+class deque {
+    // Implementation details
+public:
+    // Public interface
+};
+}
+\end{lstlisting}
+
+\section{Internal Implementation}
+
+\subsection{Bucket Structure}
+Elements are stored in fixed-size buckets to optimize memory allocation and access.
+
+\begin{lstlisting}
+struct Bucket {
+    alignas(T) uint8_t data[sizeof(T) * bucketSize];
+    
+    Bucket() {
+        // Initialize memory to zero
+        std::memset(data, 0, sizeof(data));
+    }
+    
+    ~Bucket() {
+        // Bucket doesn't own the objects, it just provides storage
+    }
+};
+\end{lstlisting}
+
+\subsection{Memory Management}
+The implementation utilizes a dynamic array of buckets, with memory-aligned storage for elements. The bucket size is configurable using the \texttt{bucketSize} constant.
+
+\begin{lstlisting}
+constexpr size_t bucketSize = 8; // Configurable bucket size
+constexpr size_t growFactor = 2; // Growth factor when resizing
+\end{lstlisting}
+
+\subsection{Position Tracking}
+The implementation tracks the position of the first and last elements using a custom structure:
+
+\begin{lstlisting}
+struct deqIndx {
+    size_t bucket;
+    size_t index;
+} first_, last_;
+\end{lstlisting}
+
+\section{Public Interface}
+
+\subsection{Constructors and Destructors}
+\begin{itemize}
+    \item \textbf{Default Constructor}: Creates an empty deque with initial capacity.
+    \item \textbf{Copy Constructor}: Creates a deep copy of another deque.
+    \item \textbf{Move Constructor}: Efficiently transfers ownership from another deque.
+    \item \textbf{Destructor}: Properly cleans up all resources.
+\end{itemize}
+
+\subsection{Element Access}
+\begin{itemize}
+    \item \texttt{operator[](size\_t index)}: Access element at specified position.
+    \item \texttt{front()}: Access the first element.
+    \item \texttt{back()}: Access the last element.
+\end{itemize}
+
+\subsection{Modifiers}
+\begin{itemize}
+    \item \texttt{push\_front(const T\& value)}: Insert element at the beginning.
+    \item \texttt{push\_back(const T\& value)}: Insert element at the end.
+    \item \texttt{pop\_front()}: Remove element from the beginning.
+    \item \texttt{pop\_back()}: Remove element from the end.
+    \item \texttt{clear()}: Remove all elements.
+\end{itemize}
+
+\subsection{Capacity}
+\begin{itemize}
+    \item \texttt{empty()}: Check if the deque is empty.
+    \item \texttt{size()}: Get the number of elements.
+\end{itemize}
+
+\section{Implementation Challenges and Solutions}
+
+\subsection{Memory Alignment Issues}
+One of the key challenges in implementing a custom deque was ensuring proper memory alignment for elements of different types. This was especially important for complex data types that have alignment requirements.
+
+\subsubsection{Problem}
+Initially, we observed memory corruption and undefined behavior when storing elements in the deque. The issue was traced to improper alignment of memory for elements within buckets.
+
+\subsubsection{Solution}
+We used the \texttt{alignas} specifier to ensure proper alignment of memory in the buckets:
+
+\begin{lstlisting}
+struct Bucket {
+    alignas(T) uint8_t data[sizeof(T) * bucketSize];
+    // ...
+};
+\end{lstlisting}
+
+This ensures that the memory allocated for elements is properly aligned according to the requirements of type \texttt{T}.
+
+\subsection{Element Construction and Destruction}
+Proper management of object lifetimes was another significant challenge.
+
+\subsubsection{Problem}
+The initial implementation directly accessed memory without properly constructing or destroying objects, leading to resource leaks and undefined behavior.
+
+\subsubsection{Solution}
+We implemented proper object construction using placement new and explicit destructor calls:
+
+\begin{lstlisting}
+// Better approach - using element_at helper for type safety
+T* element_at(size_t bucket, size_t index) {
+    return reinterpret_cast<T*>(&buckets_[bucket]->data[index * sizeof(T)]);
+}
+
+void push_back(const T& value) {
+    // ...
+    new (element_at(last_.bucket, last_.index)) T(value);
+    // ...
+}
+
+void pop_back() {
+    // ...
+    element_at(last_.bucket, last_.index)->~T();
+    // ...
+}
+\end{lstlisting}
+
+This approach correctly manages object lifetimes and ensures that destructors are called when elements are removed.
+
+\subsection{Index Calculation}
+Correctly calculating indices for element access across multiple buckets was a complex challenge.
+
+\subsubsection{Problem}
+The original implementation had bugs in calculating the correct bucket and index for elements, resulting in incorrect element access and iterator behavior.
+
+\subsubsection{Solution}
+We developed a more robust approach to calculate element positions:
+
+\begin{lstlisting}
+T& operator[](size_t idx) {
+    if (idx >= size_) throw std::out_of_range("Index out of range");
+    
+    // Calculate which bucket and position this element is in
+    size_t relative_pos = idx;
+    size_t curr_bucket = first_.bucket;
+    size_t curr_index = first_.index;
+    
+    // Navigate to the right position
+    while (relative_pos > 0) {
+        if (curr_index + relative_pos < bucketSize) {
+            curr_index += relative_pos;
+            break;
+        } else {
+            relative_pos -= (bucketSize - curr_index);
+            curr_index = 0;
+            curr_bucket = (curr_bucket + 1) % capacity_;
+        }
+    }
+    
+    return *element_at(curr_bucket, curr_index);
+}
+\end{lstlisting}
+
+This implementation carefully handles boundary conditions when traversing buckets.
+
+\section{Debugging Experience}
+
+During the development of this deque implementation, several bugs were encountered and fixed:
+
+\subsection{Uninitialized Memory Issues}
+\subsubsection{Problem}
+When iterating through the deque, we observed random values being displayed instead of the expected values.
+
+\subsubsection{Root Cause}
+The memory in the buckets was not properly initialized, leading to garbage values being interpreted as valid elements.
+
+\subsubsection{Fix}
+Added memory initialization in the Bucket constructor:
+
+\begin{lstlisting}
+Bucket() {
+    // Initialize memory to zero
+    std::memset(data, 0, sizeof(data));
+}
+\end{lstlisting}
+
+\subsection{Iterator Boundary Issues}
+\subsubsection{Problem}
+Iterators would sometimes access invalid memory after the end of the container.
+
+\subsubsection{Root Cause}
+The iterator's end condition was incorrectly implemented, not properly accounting for the circular buffer structure.
+
+\subsubsection{Fix}
+Rewrote the iterator implementation to use a simpler, more robust approach based on element indices:
+
+\begin{lstlisting}
+class iterator {
+private:
+    deque* container_;
+    size_t position_;
+    
+public:
+    // ...
+    
+    bool operator==(const iterator& other) const {
+        return position_ == other.position_ || 
+              (position_ >= container_->size_ && other.position_ >= container_->size_);
+    }
+};
+\end{lstlisting}
+
+\subsection{Memory Leaks}
+\subsubsection{Problem}
+Memory profiling revealed leaks when elements were removed from the deque.
+
+\subsubsection{Root Cause}
+Elements' destructors were not being called when they were removed from the deque.
+
+\subsubsection{Fix}
+Implemented proper destructor calls and a clear method to clean up resources:
+
+\begin{lstlisting}
+void clear() {
+    // Destroy all objects
+    while (!empty()) {
+        pop_back();
+    }
+}
+
+~deque() {
+    clear();
+    for (size_t i = 0; i < capacity_; ++i) {
+        delete buckets_[i];
+    }
+    delete[] buckets_;
+}
+\end{lstlisting}
+
+\section{Detailed Implementation Examples}
+
+\subsection{Resizing Strategy}
+The deque implementation uses a growth strategy that doubles the capacity when the container becomes full:
+
+\begin{lstlisting}
+void increase_size() {
+    size_t old_cap = capacity_;
+    size_t used_buckets = (size_ + bucketSize - 1) / bucketSize;
+    capacity_ *= growFactor;
+    Bucket** new_buckets = new Bucket*[capacity_]();
+
+    size_t mid = (capacity_ - used_buckets) / 2;
+
+    for (size_t i = 0; i < used_buckets; ++i) {
+        size_t old_idx = (first_.bucket + i) % old_cap;
+        new_buckets[mid + i] = buckets_[old_idx];
+    }
+    for (size_t i = 0; i < capacity_; ++i) {
+        if (!new_buckets[i]) new_buckets[i] = new Bucket();
+    }
+
+    delete[] buckets_;
+    buckets_ = new_buckets;
+    first_.bucket = mid;
+    last_.bucket  = mid + used_buckets - 1;
+}
+\end{lstlisting}
+
+This approach has several advantages:
+\begin{itemize}
+    \item Amortized O(1) cost for insertion operations
+    \item Centralizes elements in the new bucket array, allowing for growth in both directions
+    \item Reuses existing buckets to avoid unnecessary copying of elements
+\end{itemize}
+
+\subsection{Bucket Navigation}
+The implementation includes helper methods for navigating buckets, which simplify the logic for advancing and retreating through the circular buffer:
+
+\begin{lstlisting}
+void advance_back() {
+    if (++last_.index == bucketSize) {
+        last_.index = 0;
+        ++last_.bucket;
+
+        if (last_.bucket >= capacity_) {
+            increase_size();
+        }
+    }
+}
+
+void retreat_front() {
+    if (first_.index == 0) {
+        first_.index = bucketSize - 1;
+        first_.bucket = (first_.bucket == 0 ? capacity_ - 1 : first_.bucket - 1);
+    } else {
+        --first_.index;
+    }
+}
+\end{lstlisting}
+
+These methods handle the complexities of bucket transitions, making the higher-level operations cleaner and less error-prone.
+
+\section{Performance Optimizations and Potential Improvements}
+
+\subsection{Current Optimizations}
+\begin{itemize}
+    \item \textbf{Bucket-based Storage}: Reduces memory fragmentation and improves cache locality.
+    \item \textbf{Memory Alignment}: Ensures optimal performance for different data types.
+    \item \textbf{Placement New}: Minimizes unnecessary copying of elements.
+    \item \textbf{Circular Buffer Design}: Enables constant-time operations at both ends.
+\end{itemize}
+
+\subsection{Potential Improvements}
+\begin{itemize}
+    \item \textbf{Lazy Initialization}: Currently, all buckets are allocated upfront. We could optimize memory usage by allocating buckets only when needed.
+    
+    \begin{lstlisting}
+    // Example of lazy bucket initialization
+    T* element_at(size_t bucket, size_t index) {
+        if (!buckets_[bucket]) {
+            buckets_[bucket] = new Bucket();
+        }
+        return reinterpret_cast<T*>(&buckets_[bucket]->data[index * sizeof(T)]);
+    }
+    \end{lstlisting}
+    
+    \item \textbf{Custom Allocator Support}: Add support for custom allocators to allow further optimization for specific use cases.
+    
+    \begin{lstlisting}
+    template <typename T, typename Allocator = std::allocator<T>>
+    class deque {
+        // Implementation with allocator support
+    };
+    \end{lstlisting}
+    
+    \item \textbf{SIMD Operations}: For numeric types, operations like bulk initialization could be optimized using SIMD instructions.
+    
+    \item \textbf{Shrinking Policy}: Implement a strategy to reduce capacity when a significant portion of the deque is unused, to reclaim memory.
+    
+    \begin{lstlisting}
+    void shrink_to_fit() {
+        // Reduce capacity if utilization is below a threshold
+        if (size_ < capacity_ * bucketSize / 4) {
+            // Implementation of shrinking logic
+        }
+    }
+    \end{lstlisting}
+    
+    \item \textbf{Thread Safety}: Add thread-safe operations or documented synchronization points for concurrent access.
+\end{itemize}
+
+\subsection{Benchmarking Considerations}
+To further optimize the implementation, benchmarking against different scenarios would be valuable:
+
+\begin{itemize}
+    \item Different bucket sizes for various element types
+    \item Performance with small vs. large elements
+    \item Comparison with std::deque and other container implementations
+    \item Memory usage patterns for different operations
+\end{itemize}
+
+\subsection{Common Pitfalls to Avoid}
+When working with this deque implementation, be aware of these potential issues:
+
+\begin{itemize}
+    \item \textbf{Type Requirements}: Types with special alignment requirements might need additional handling.
+    \item \textbf{Exception Safety}: The current implementation provides basic exception safety but could be improved for strong exception safety.
+    \item \textbf{Iterator Invalidation}: Be aware that iterators may be invalidated after insertion operations that cause resizing.
+\end{itemize}
+
+\section{Time Complexity Analysis}
+
+\begin{center}
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Operation} & \textbf{Time Complexity} \\
+\hline
+push\_front, push\_back & O(1) amortized \\
+pop\_front, pop\_back & O(1) \\
+front, back & O(1) \\
+operator[] & O(1) \\
+size, empty & O(1) \\
+iterator operations & O(1) \\
+clear & O(n) \\
+\hline
+\end{tabular}
+\end{center}
+
+\section{Memory Optimization}
+The implementation employs several memory optimization techniques:
+
+\begin{itemize}
+    \item \textbf{Alignment}: Elements are properly aligned to minimize padding.
+    \item \textbf{Bucket Allocation}: Allocating memory in buckets reduces fragmentation.
+    \item \textbf{Placement New}: Used for in-place construction of elements without unnecessary copying.
+    \item \textbf{Amortized Resizing}: Only grows the container when needed, using a growth factor.
+\end{itemize}
+
+\section{Usage Examples}
+
+\subsection{Basic Usage}
+\begin{lstlisting}
+#include "deque.h"
+#include <iostream>
+
+int main() {
+    sml::deque<int> deque;
+    
+    // Add elements
+    deque.push_front(1);
+    deque.push_back(2);
+    
+    // Access elements
+    std::cout << "Front: " << deque.front() << std::endl;
+    std::cout << "Back: " << deque.back() << std::endl;
+    
+    // Iterate through elements
+    for (auto& value : deque) {
+        std::cout << value << " ";
+    }
+    std::cout << std::endl;
+    
+    return 0;
+}
+\end{lstlisting}
+
+\subsection{Advanced Usage}
+\begin{lstlisting}
+sml::deque<std::string> strDeque;
+
+// Add elements
+strDeque.push_back("Hello");
+strDeque.push_back("World");
+
+// Iterate and modify
+for (auto& str : strDeque) {
+    str += "!";
+}
+
+// Use with standard algorithms
+std::for_each(strDeque.begin(), strDeque.end(), 
+              [](const std::string& s) { 
+                  std::cout << s << std::endl; 
+              });
+\end{lstlisting}
+
+\subsection{Complex Object Storage}
+\begin{lstlisting}
+struct ComplexObject {
+    ComplexObject(int a, double b) : a_(a), b_(b) {}
+    ComplexObject(const ComplexObject& other) : a_(other.a_), b_(other.b_) {
+        std::cout << "Copy constructor called" << std::endl;
+    }
+    ~ComplexObject() {
+        std::cout << "Destructor called for " << a_ << std::endl;
+    }
+    
+    int a_;
+    double b_;
+};
+
+int main() {
+    sml::deque<ComplexObject> objDeque;
+    
+    // Emplace elements without unnecessary copies
+    objDeque.push_back(ComplexObject(1, 2.5));
+    objDeque.push_back(ComplexObject(3, 4.5));
+    
+    // Access properties
+    for (const auto& obj : objDeque) {
+        std::cout << "a: " << obj.a_ << ", b: " << obj.b_ << std::endl;
+    }
+    
+    // Deque will properly destroy all objects when it goes out of scope
+    return 0;
+}
+\end{lstlisting}
+
+\subsection{Using as a Queue or Stack}
+The deque can easily be used as either a queue or a stack:
+
+\begin{lstlisting}
+// As a queue (FIFO)
+sml::deque<int> queue;
+queue.push_back(1);  // Enqueue
+queue.push_back(2);
+queue.push_back(3);
+
+while (!queue.empty()) {
+    std::cout << queue.front() << " ";  // Peek
+    queue.pop_front();  // Dequeue
+}
+// Output: 1 2 3
+
+// As a stack (LIFO)
+sml::deque<int> stack;
+stack.push_back(1);  // Push
+stack.push_back(2);
+stack.push_back(3);
+
+while (!stack.empty()) {
+    std::cout << stack.back() << " ";  // Peek
+    stack.pop_back();  // Pop
+}
+// Output: 3 2 1
+\end{lstlisting}
+
+\section{Implementation Details}
+
+\subsection{Memory Layout}
+The deque maintains a dynamic array of bucket pointers. Each bucket contains fixed-size raw memory for storing elements. Elements are distributed across buckets with proper tracking of the first and last positions.
+
+\subsection{Growth Strategy}
+When the deque becomes full, it allocates a new array of buckets with a size scaled by the growth factor (default is 2). Elements are redistributed to maintain the logical order while optimizing the memory layout.
+
+\subsection{Element Construction and Destruction}
+The implementation uses placement new for constructing objects in pre-allocated memory:
+
+\begin{lstlisting}
+new (element_at(bucket, index)) T(value);
+\end{lstlisting}
+
+And explicit destructor calls for destroying objects without deallocating memory:
+
+\begin{lstlisting}
+element_at(bucket, index)->~T();
+\end{lstlisting}
+
+\section{Best Practices}
+
+\subsection{When to Use This Deque}
+This deque implementation is particularly useful when:
+\begin{itemize}
+    \item You need efficient insertion/removal at both ends
+    \item You require better cache locality than linked-list-based solutions
+    \item You need a more memory-efficient alternative to std::deque
+\end{itemize}
+
+\subsection{Performance Considerations}
+To optimize performance:
+\begin{itemize}
+    \item Adjust the bucket size based on your use case
+    \item Consider the element size when setting the bucket size
+    \item Avoid unnecessary copying of large elements
+\end{itemize}
+
+\section{Conclusion}
+This custom deque implementation provides an efficient and flexible double-ended queue with constant-time operations at both ends. It balances memory efficiency with performance through its bucket-based design. The implementation addresses common challenges in container design, such as memory management, object lifetime, and efficient element access. Through careful debugging and optimization, we've created a robust and performant data structure that can be used in a variety of applications.
+
+\end{document} 

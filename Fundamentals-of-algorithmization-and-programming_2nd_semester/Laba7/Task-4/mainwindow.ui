@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Hash Table Visualization</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <layout class="QHBoxLayout" name="controlsLayout">
+      <item>
+       <widget class="QComboBox" name="sizeComboBox">
+        <property name="toolTip">
+         <string>Table Size</string>
+        </property>
+        <item><property name="text"><string>16</string></property></item>
+        <item><property name="text"><string>64</string></property></item>
+        <item><property name="text"><string>128</string></property></item>
+        <item><property name="text"><string>2048</string></property></item>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="hashComboBox">
+        <property name="toolTip">
+         <string>Hash Function</string>
+        </property>
+        <item><property name="text"><string>Modular</string></property></item>
+        <item><property name="text"><string>Universal</string></property></item>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="probingComboBox">
+        <property name="toolTip">
+         <string>Probing Strategy</string>
+        </property>
+        <item><property name="text"><string>Linear</string></property></item>
+        <item><property name="text"><string>Quadratic</string></property></item>
+        <item><property name="text"><string>Double Hashing</string></property></item>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="runButton">
+        <property name="text">
+         <string>Run Experiment</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="resetButton">
+        <property name="text">
+         <string>Reset</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QTableWidget" name="statsTableWidget">
+      <property name="columnCount">
+       <number>3</number>
+      </property>
+      <property name="rowCount">
+       <number>0</number>
+      </property>
+      <column>
+       <property name="text">
+        <string>№</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>h'(key)</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Probes</string>
+       </property>
+      </column>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="summaryLabel">
+      <property name="text">
+       <string>Statistics summary will appear here.</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
