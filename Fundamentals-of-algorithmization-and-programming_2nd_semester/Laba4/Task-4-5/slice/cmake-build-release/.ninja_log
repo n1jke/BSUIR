@@ -1,6 +1,0 @@
-# ninja log v6
-3	4747	1744537023829486944	CMakeFiles/slice.dir/library.cpp.o	a0802ccc159ecdbb
-610	659	1744551667480471290	libslice.a	3d794f59d00af35e
-4	90	1744544382675061114	CMakeFiles/slice.dir/Iterator.cpp.o	bd2009fbb0bd742a
-1	2179	1744550791741367254	CMakeFiles/slice.dir/slice.cpp.o	678b2415f84d9bbc
-0	610	1744551666870471808	CMakeFiles/slice.dir/pair.cpp.o	3351983069f26c06
